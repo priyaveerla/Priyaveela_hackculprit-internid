@@ -1,0 +1,103 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vishnupriya Veerla - Portfolio</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');body {
+  font-family: 'Comic Neue', cursive;
+  background-color: #2c3e50;
+  background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+  color: #ecf0f1;
+  margin: 0;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+h1 {
+  color: #f1c40f;
+  text-align: center;
+}
+
+section {
+  background-color: #34495e;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+h2 {
+  color: #f39c12;
+  margin-bottom: 10px;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+a {
+  color: #1abc9c;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Vishnupriya Veerla - Portfolio</h1>
+  </div>  <section>
+    <h2>👋 About Me</h2>
+    <p>Hi, I'm Vishnupriya Veerla, completed B.Tech 3rd year in Electronics and Communication Engineering.</p>
+    <p>My current focus is on building projects helpful for my career. I love learning new topics in tech.</p>
+  </section>  <section>
+    <h2>🛠️ Skills</h2>
+    <strong>Technical Skills:</strong>
+    <ul>
+      <li>HTML</li>
+      <li>JavaScript</li>
+      <li>Java</li>
+    </ul>
+    <strong>Soft Skills:</strong>
+    <ul>
+      <li>Communication</li>
+      <li>Teamwork</li>
+      <li>Public Speaking</li>
+    </ul>
+  </section>  <section>
+    <h2>📁 Projects</h2>
+    <ul>
+      <li><strong>My Budget Planner:</strong> A smart and fun way to track monthly spending by categories with chart support and dark/light modes.</li>
+    </ul>
+  </section>  <section>
+    <h2>🎓 Education</h2>
+    <p>Usha Rama College of Engineering and Technology</p>
+    <p>B.Tech in Electronics and Communication Engineering</p>
+    <p>Completed 3rd year</p>
+  </section>  <section>
+    <h2>💼 Experience</h2>
+    <p>Web Development Intern at Hackculprit</p>
+  </section>  <section>
+    <h2>🎵 Hobbies</h2>
+    <ul>
+      <li>Music</li>
+      <li>Dramas</li>
+      <li>Reading</li>
+    </ul>
+  </section>  <section>
+    <h2>📬 Contact</h2>
+    <p><a href="https://www.linkedin.com/" target="_blank">LinkedIn</a></p>
+    <p><a href="https://www.github.com/priyaveerla" target="_blank">GitHub</a></p>
+  </section>
+</body>
+</html>
