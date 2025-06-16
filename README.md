@@ -3,10 +3,10 @@
 ## Project Title: [Insert Project Title Here]
 
 ### Submitted by:
-**Name:** [Your Full Name]  
+**Name:** Veerla Vishnu priya 
 **Internship Role:** Virtual Intern  
 **Organization:** Hack Culprit  
-**GitHub Profile:** [@yourusername](https://github.com/yourusername)  
+**GitHub Profile:** [@priyaveerla](https://github.com/priyaveerla)  
 **Project Duration:** [Start Date] – [End Date]  
 **Project Repository:** [GitHub Repo URL]
 
