@@ -1,0 +1,362 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monthly Budget Planner</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');body {
+  font-family: 'Comic Neue', cursive;
+  background-color: #2c3e50;
+  background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+  color: #ecf0f1;
+  margin: 0;
+  padding: 20px;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.menu {
+  background: #2c3e50;
+  border-radius: 15px;
+  padding: 10px;
+  display: none;
+  position: absolute;
+  top: 50px;
+  left: 20px;
+  z-index: 10;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-menu {
+  background: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.toggle-theme {
+  position: relative;
+  width: 50px;
+  height: 26px;
+  background-color: #34495e;
+  border-radius: 13px;
+  cursor: pointer;
+}
+
+.toggle-theme .slider {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  top: 2px;
+  left: 2px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.toggle-theme.active .slider {
+  transform: translateX(24px);
+}
+
+h1 {
+  text-align: center;
+  color: #f1c40f;
+  animation: popIn 0.6s ease-in-out;
+  margin: 10px 0;
+}
+
+.menu h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #f1c40f;
+}
+
+ul.menu-options {
+  list-style: none;
+  padding: 0;
+}
+
+ul.menu-options li {
+  padding: 10px;
+  background: #34495e;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+}
+
+#monthSelector select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  background: #2c3e50;
+  color: white;
+  border: 1px solid #34495e;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.container {
+  background: transparent;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: none;
+}
+
+.input-section {
+  margin: 15px 0;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #34495e;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  background-color: #34495e;
+  color: #ecf0f1;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+input:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 10px #f1c40f;
+  border-color: #f1c40f;
+}
+
+select option {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+}
+
+button {
+  background: #f39c12;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #e67e22;
+}
+
+.summary {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  background: transparent;
+}
+
+.notification {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+canvas {
+  margin-top: 20px;
+  width: 100% !important;
+}
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="controls">
+      <button class="toggle-menu" onclick="toggleMenu()">⚙️</button>
+      <div class="toggle-theme" onclick="toggleTheme(this)">
+      </div>
+    </div>
+    <h1>Monthly Budget Planner</h1>
+  </div>  <div class="menu" id="menu">
+    <ul class="menu-options">
+      <li onclick="alert('More features coming soon!')">📊 Export Data</li>
+      <li onclick="alert('Pie charts will be added next!')">📈 View Stats</li>
+      <li onclick="toggleMonthSelector()">🗓️ Change Month</li>
+    </ul>
+    <div id="monthSelector" style="display: none; margin-top: 10px;">
+      <select onchange="changeMonth(this.value)">
+        <option value="January">January</option>
+        <option value="February">February</option>
+        <option value="March">March</option>
+        <option value="April">April</option>
+        <option value="May">May</option>
+        <option value="June">June</option>
+        <option value="July">July</option>
+        <option value="August">August</option>
+        <option value="September">September</option>
+        <option value="October">October</option>
+        <option value="November">November</option>
+        <option value="December">December</option>
+      </select>
+    </div>
+  </div>  <div class="container">
+    <div class="input-section">
+      <label for="budget">Monthly Budget (₹):</label>
+      <input type="number" id="budget" placeholder="Enter your budget"><label for="category">Category:</label>
+  <select id="category" onclick="this.size=5" onblur="this.size=1" onchange="this.size=1; this.blur();">
+    <option value="Food">🍔 Food</option>
+    <option value="Transport">🚗 Transport</option>
+    <option value="Entertainment">🎬 Entertainment</option>
+    <option value="Utilities">💡 Utilities</option>
+    <option value="Other">🧩 Other</option>
+  </select>
+
+  <label for="amount">Amount Spent (₹):</label>
+  <input type="number" id="amount" placeholder="Enter amount">
+
+  <button onclick="addExpense()">Add Expense</button>
+</div>
+
+<div class="summary">
+  <p>Total Spent: ₹<span id="total">0</span></p>
+  <p>Remaining: ₹<span id="remaining">0</span></p>
+  <p class="notification" id="notification"></p>
+</div>
+
+<h3>Expenses:</h3>
+<ul id="expenseList"></ul>
+<canvas id="chart"></canvas>
+
+  </div>  <script>
+    let activeMonth = 'January';
+    const dataByMonth = {};
+    const categoryLimits = { Food: 5000, Transport: 3000, Entertainment: 2500, Utilities: 4000, Other: 1500 };
+
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+      document.getElementById('monthSelector').style.display = 'none';
+    }
+
+    function toggleTheme(el) {
+      el.classList.toggle('active');
+      const isDark = el.classList.contains('active');
+      el.querySelector('.slider').textContent = isDark ? '🌜' : '🌞';
+    }
+
+    function toggleMonthSelector() {
+      const selector = document.getElementById('monthSelector');
+      selector.style.display = selector.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function changeMonth(month) {
+      activeMonth = month;
+      loadDataForMonth();
+      document.getElementById('monthSelector').style.display = 'none';
+    }
+
+    const chartConfig = {
+      type: 'bar',
+      data: {
+        labels: Object.keys(categoryLimits),
+        datasets: [{
+          label: 'Spending by Category',
+          data: [0, 0, 0, 0, 0],
+          backgroundColor: ['#fd79a8', '#74b9ff', '#ffeaa7', '#a29bfe', '#fab1a0']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        animation: {
+          duration: 800,
+          easing: 'easeOutBounce'
+        }
+      }
+    };
+
+    const chart = new Chart(document.getElementById('chart'), chartConfig);
+
+    function addExpense() {
+      const budget = Number(document.getElementById('budget').value);
+      const amount = Number(document.getElementById('amount').value);
+      const category = document.getElementById('category').value;
+      if (!budget || !amount) return alert("Please fill in all fields");
+
+      if (!dataByMonth[activeMonth]) {
+        dataByMonth[activeMonth] = {
+          budget,
+          totalSpent: 0,
+          categoryTotals: { Food: 0, Transport: 0, Entertainment: 0, Utilities: 0, Other: 0 },
+          expenses: []
+        };
+      }
+
+      const monthData = dataByMonth[activeMonth];
+      monthData.budget = budget;
+      monthData.totalSpent += amount;
+      monthData.categoryTotals[category] += amount;
+      monthData.expenses.push({ category, amount });
+
+      localStorage.setItem('budgetData', JSON.stringify(dataByMonth));
+      loadDataForMonth();
+    }
+
+    function loadDataForMonth() {
+      const saved = JSON.parse(localStorage.getItem('budgetData')) || {};
+      Object.assign(dataByMonth, saved);
+
+      if (!dataByMonth[activeMonth]) {
+        dataByMonth[activeMonth] = {
+          budget: 0,
+          totalSpent: 0,
+          categoryTotals: { Food: 0, Transport: 0, Entertainment: 0, Utilities: 0, Other: 0 },
+          expenses: []
+        };
+      }
+
+      const monthData = dataByMonth[activeMonth];
+      document.getElementById('budget').value = monthData.budget;
+      document.getElementById('amount').value = '';
+      document.getElementById('total').innerText = monthData.totalSpent;
+      document.getElementById('remaining').innerText = monthData.budget - monthData.totalSpent;
+
+      const list = document.getElementById('expenseList');
+      list.innerHTML = '';
+      monthData.expenses.forEach(e => {
+        list.innerHTML += `<li>${e.category}: ₹${e.amount}</li>`;
+      });
+
+      document.getElementById('notification').textContent = '';
+      for (const cat in monthData.categoryTotals) {
+        if (monthData.categoryTotals[cat] > categoryLimits[cat]) {
+          document.getElementById('notification').textContent = `⚠️ Limit exceeded for ${cat}!`;
+        }
+      }
+
+      chart.data.datasets[0].data = Object.values(monthData.categoryTotals);
+      chart.update();
+    }
+
+    window.onload = loadDataForMonth;
+  </script></body>
+</html>
